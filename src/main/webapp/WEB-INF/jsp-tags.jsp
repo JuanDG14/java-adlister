@@ -26,6 +26,6 @@
 <h1>Hello, World!</h1>
 <h2><%= localCount %></h2>
 <h2><%= instanceCount %></h2>
-<%@include file="partials/national-parks.jsp"%>
+<%@include file="../partials/national-parks.jsp"%>
 </body>
 </html>
