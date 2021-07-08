@@ -6,16 +6,29 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "NameOfServlet", urlPatterns = "/secret-admin-page")
+@WebServlet(name = "NameOfServlet", urlPatterns = "/profile")
 public class ShowAdminPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
 
-        if(!((Boolean) session.getAttribute("isAdmin"))) {
+        if(!((Boolean) session.getAttribute("user"))) {
             response.sendRedirect("/login");
             return;
         }
 
-        request.getRequestDispatcher("/secret-admin-page.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/profile.jsp").forward(request, response);
     }
 }
+//@WebServlet(name = "NameOfServlet", urlPatterns = "/secret-admin-page")
+//public class ShowAdminPageServlet extends HttpServlet {
+//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+//        HttpSession session = request.getSession();
+//
+//        if(!((Boolean) session.getAttribute("isAdmin"))) {
+//            response.sendRedirect("/login");
+//            return;
+//        }
+//
+//        request.getRequestDispatcher("/WEB-INF/secret-admin-page.jsp").forward(request, response);
+//    }
+//}
