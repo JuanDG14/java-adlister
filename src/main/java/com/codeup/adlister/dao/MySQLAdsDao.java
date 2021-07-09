@@ -17,14 +17,15 @@ public class MySQLAdsDao implements Ads {
         try {
             DriverManager.registerDriver(new Driver());
             connection = DriverManager.getConnection(
-                config.getUrl(),
-                config.getUser(),
-                config.getPassword()
+                    config.getUrl(),
+                    config.getUser(),
+                    config.getPassword()
             );
         } catch (SQLException e) {
             throw new RuntimeException("Error connecting to the database!", e);
         }
     }
+
 
     @Override
     public List<Ad> all() {
@@ -50,20 +51,32 @@ public class MySQLAdsDao implements Ads {
             throw new RuntimeException("Error creating a new ad.", e);
         }
     }
+    @Override
+    public Ad getOne(long id) {
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("SELECT FROM ads WHERE id = " + id);
+            ResultSet rs = stmt.getGeneratedKeys();
+            rs.next();
+            return extractAd(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error creating a new ad.", e);
+        }
+    }
 
     private String createInsertQuery(Ad ad) {
         return "INSERT INTO ads(user_id, title, description) VALUES "
-            + "(" + ad.getUserId() + ", "
-            + "'" + ad.getTitle() +"', "
-            + "'" + ad.getDescription() + "')";
+                + "(" + ad.getUserId() + ", "
+                + "'" + ad.getTitle() +"', "
+                + "'" + ad.getDescription() + "')";
     }
 
     private Ad extractAd(ResultSet rs) throws SQLException {
         return new Ad(
-            rs.getLong("id"),
-            rs.getLong("user_id"),
-            rs.getString("title"),
-            rs.getString("description")
+                rs.getLong("id"),
+                rs.getLong("user_id"),
+                rs.getString("title"),
+                rs.getString("description")
         );
     }
 
